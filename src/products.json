@@ -1,0 +1,15 @@
+[
+  {
+    "id": "id-1",
+    "name": "Tacos With Lime",
+    "imgUrl": "https://images.pexels.com/photos/461198/pexels-photo-461198.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=480&w=640",
+    "alt": "Tacos With Lime",
+    "price": 10
+  },
+  {
+    "id": "id-2",
+    "name": "Fries and Burger",
+    "imgUrl": "https://images.pexels.com/photos/70497/pexels-photo-70497.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=480&w=640",
+    "price": 20
+  }
+]
