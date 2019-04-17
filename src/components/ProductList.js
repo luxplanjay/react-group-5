@@ -13,8 +13,11 @@ const ProductList = ({ items = [] }) => (
 );
 
 ProductList.propTypes = {
-  items: PropTypes.arrayOf(PropTypes.shape({ id: PropTypes.string.isRequired }))
-    .isRequired,
+  items: PropTypes.arrayOf(
+    PropTypes.shape({
+      id: PropTypes.string.isRequired,
+    }),
+  ).isRequired,
 };
 
 export default ProductList;

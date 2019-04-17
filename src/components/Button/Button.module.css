@@ -1,0 +1,16 @@
+.button:hover,
+.button:focus {
+  background-color: #1976d2;
+}
+
+.active {
+  composes: button;
+  color: #ffffff;
+  background-color: #2196f3;
+}
+
+.disabled {
+  composes: button;
+  background-color: #0000001f;
+  color: #00000042;
+}
