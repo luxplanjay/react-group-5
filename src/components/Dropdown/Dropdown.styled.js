@@ -41,9 +41,3 @@ export const ListItem = styled.li`
     cursor: pointer;
   }
 `;
-
-{
-  /* <button type="button" className={styles.button}>
-&#9776;
-</button> */
-}

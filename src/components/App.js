@@ -1,9 +1,9 @@
 import React from 'react';
-import ProductList from './ProductList';
-import Panel from './Panel';
+// import ProductList from './ProductList';
+// import Panel from './Panel';
 import Dropdown from './Dropdown/Dropdown';
-import Button from './Button/Button';
-import products from '../products.json';
+// import Button from './Button/Button';
+// import products from '../products.json';
 
 const App = () => (
   <div>
@@ -13,7 +13,7 @@ const App = () => (
       // disabled
     /> */}
 
-    <Dropdown isOpen={true} />
+    <Dropdown isOpen />
 
     {/* <Panel title="Top Products">
       <ProductList items={products} />
