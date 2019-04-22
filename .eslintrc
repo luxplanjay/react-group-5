@@ -29,7 +29,12 @@
     "jsx-a11y/label-has-for": 0,
     "jsx-a11y/label-has-associated-control": 0,
     "linebreak-style": ["error", "unix"],
-    "react/jsx-filename-extension": [1, { "extensions": [".js", ".jsx"] }]
+    "react/jsx-filename-extension": [1, { "extensions": [".js", ".jsx"] }],
+    "react/destructuring-assignment": [
+      2,
+      "always",
+      { "ignoreClassFields": true }
+    ]
   },
   "globals": {
     "window": true,

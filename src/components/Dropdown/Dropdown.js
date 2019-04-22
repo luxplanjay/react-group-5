@@ -1,32 +1,50 @@
-import React from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import {
-  Container,
-  HamburgerButton,
-  DropdownContainer,
-  List,
-  ListItem,
-} from './Dropdown.styled';
+import styles from './Dropdown.module.css';
 
-const Dropdown = ({ isOpen = false }) => (
-  <Container>
-    <HamburgerButton type="button">&#9776;</HamburgerButton>
+export default class Dropdown extends Component {
+  static defaultProps = {
+    isOpen: false,
+  };
 
-    {isOpen && (
-      <DropdownContainer>
-        <List>
-          <ListItem>Option 1</ListItem>
-          <ListItem>Option 2</ListItem>
-          <ListItem>Option 3</ListItem>
-          <ListItem>Option 4</ListItem>
-        </List>
-      </DropdownContainer>
-    )}
-  </Container>
-);
+  static propTypes = {
+    isOpen: PropTypes.bool,
+  };
 
-Dropdown.propTypes = {
-  isOpen: PropTypes.bool,
-};
+  state = {
+    isOpen: this.props.isOpen,
+  };
 
-export default Dropdown;
+  handleToggle = () => {
+    this.setState(state => ({
+      isOpen: !state.isOpen,
+    }));
+  };
+
+  render() {
+    const { isOpen } = this.state;
+
+    return (
+      <div className={styles.container}>
+        <button
+          type="button"
+          className={styles.button}
+          onClick={this.handleToggle}
+        >
+          &#9776;
+        </button>
+
+        {isOpen && (
+          <div className={styles.dropdown}>
+            <ul className={styles.menu}>
+              <li>Option 1</li>
+              <li>Option 2</li>
+              <li>Option 3</li>
+              <li>Option 4</li>
+            </ul>
+          </div>
+        )}
+      </div>
+    );
+  }
+}

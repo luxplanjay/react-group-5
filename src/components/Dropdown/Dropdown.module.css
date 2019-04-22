@@ -30,11 +30,11 @@
   padding: 0;
   margin: 0;
 }
-.menuItem {
+.menu li {
   padding: 8px 12px;
 }
 
-.menuItem:hover {
+.menu li:hover {
   background-color: rgba(0, 0, 0, 0.14);
   cursor: pointer;
 }
