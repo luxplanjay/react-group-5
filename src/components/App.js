@@ -1,14 +1,23 @@
-import React from 'react';
-import Dropdown from './Dropdown/Dropdown';
-import Counter from './Counter/Counter';
+/* eslint-disable */
+import React, { Component } from 'react';
+import SignUpForm from './SighUpForm/SignUpForm';
 
-const App = () => (
-  <div>
-    <Counter step={1} initialValue={5} />
-    <Counter step={10} initialValue={15} />
-    <Dropdown />
-    <Dropdown isOpen />
-  </div>
-);
+export default class App extends Component {
+  state = {
+    items: [],
+  };
 
-export default App;
+  handleSignUp = credentials => {
+    console.log(credentials);
+  };
+
+  render() {
+    return (
+      <div>
+        <SignUpForm onSignUp={this.handleSignUp} />
+      </div>
+    );
+  }
+}
+
+// export default App;
