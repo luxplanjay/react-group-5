@@ -1,0 +1,17 @@
+.list {
+  display: flex;
+  flex-wrap: wrap;
+  margin-left: -8px;
+  margin-right: -8px;
+  margin-top: 0;
+  margin-bottom: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.list li {
+  flex: 0 0 calc(33.3333% - 16px);
+  margin-top: 16px;
+  margin-left: 8px;
+  margin-right: 8px;
+}

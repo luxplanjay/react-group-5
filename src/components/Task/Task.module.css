@@ -1,0 +1,47 @@
+.task {
+  box-shadow: 0px 1px 3px 0px rgba(0, 0, 0, 0.2),
+    0px 1px 1px 0px rgba(0, 0, 0, 0.14), 0px 2px 1px -1px rgba(0, 0, 0, 0.12);
+  border-radius: 2px;
+  background-color: #fff;
+  overflow: hidden;
+  padding: 8px;
+  border-top: 3px solid transparent;
+}
+
+.lowPriority {
+  border-color: #4caf50;
+}
+
+.normalPriority {
+  border-color: #2196f3;
+}
+
+.highPriority {
+  border-color: #f44336;
+}
+
+.text {
+  margin: 0;
+  flex-grow: 1;
+}
+
+.actions {
+  margin-left: 8px;
+  flex-shrink: 0;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+}
+
+.actions label {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.actions button,
+.actions select {
+  margin-left: 4px;
+  margin-right: 4px;
+}
