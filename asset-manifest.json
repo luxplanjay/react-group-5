@@ -1,11 +1,13 @@
 {
-  "main.js": "/react-group-5/static/js/main.171688bd.chunk.js",
-  "main.js.map": "/react-group-5/static/js/main.171688bd.chunk.js.map",
+  "main.css": "/react-group-5/static/css/main.82bc1e3f.chunk.css",
+  "main.js": "/react-group-5/static/js/main.e70ec0a2.chunk.js",
+  "main.js.map": "/react-group-5/static/js/main.e70ec0a2.chunk.js.map",
   "runtime~main.js": "/react-group-5/static/js/runtime~main.11c4de17.js",
   "runtime~main.js.map": "/react-group-5/static/js/runtime~main.11c4de17.js.map",
-  "static/js/2.0f030a25.chunk.js": "/react-group-5/static/js/2.0f030a25.chunk.js",
-  "static/js/2.0f030a25.chunk.js.map": "/react-group-5/static/js/2.0f030a25.chunk.js.map",
+  "static/js/2.f2746074.chunk.js": "/react-group-5/static/js/2.f2746074.chunk.js",
+  "static/js/2.f2746074.chunk.js.map": "/react-group-5/static/js/2.f2746074.chunk.js.map",
   "index.html": "/react-group-5/index.html",
-  "precache-manifest.a17d0f7e0ed5039eb199d5d95c7e6baa.js": "/react-group-5/precache-manifest.a17d0f7e0ed5039eb199d5d95c7e6baa.js",
-  "service-worker.js": "/react-group-5/service-worker.js"
+  "precache-manifest.ce87b46eb16c477d2c951401ebb91ed8.js": "/react-group-5/precache-manifest.ce87b46eb16c477d2c951401ebb91ed8.js",
+  "service-worker.js": "/react-group-5/service-worker.js",
+  "static/css/main.82bc1e3f.chunk.css.map": "/react-group-5/static/css/main.82bc1e3f.chunk.css.map"
 }
