@@ -1,105 +1,72 @@
 import React, { Component } from 'react';
-import shortid from 'shortid';
-import TaskEditor from './TaskEditor/TaskEditor';
-import TaskList from './TaskList/TaskList';
-import TaskFilter from './TaskFilter/TaskFilter';
+import ArticleList from './ArticleList';
+import Loader from './Loader';
+import ErrorNotification from './ErrorNotification';
+import SearchForm from './SearchForm';
+import CategorySelector from './CategorySelector';
+import * as articleAPI from '../services/article-api';
 
-const containerStyles = {
-  maxWidth: 1200,
-  minWidth: 800,
-  marginLeft: 'auto',
-  marginRight: 'auto',
-};
-
-const filterTasks = (tasks, filter) => {
-  return tasks.filter(task =>
-    task.text.toLowerCase().includes(filter.toLowerCase()),
-  );
+/*
+ * Функция-помошник, которая возвращает массив объектов
+ * такого формата, который ожидает компонент
+ */
+const mapper = articles => {
+  return articles.map(({ objectID: id, url: link, ...props }) => ({
+    id,
+    link,
+    ...props,
+  }));
 };
 
 export default class App extends Component {
   state = {
-    tasks: [],
-    filter: '',
+    articles: [],
+    isLoading: false,
+    error: null,
+    category: '',
   };
 
   componentDidMount() {
-    console.log('componentDidMount');
-    const persistedTasks = localStorage.getItem('tasks');
-
-    if (persistedTasks) {
-      const tasks = JSON.parse(persistedTasks);
-
-      this.setState({ tasks });
-    }
+    this.fetchArticles();
   }
 
   componentDidUpdate(prevProps, prevState) {
-    console.log('componentDidUpdate');
-    // console.log('prevState: ', prevState);
-    // console.log('this.state: ', this.state);
+    const { category: prevCategory } = prevState;
+    const { category: nextCategory } = this.state;
 
-    const { tasks } = this.state;
-
-    if (prevState.tasks !== tasks) {
-      localStorage.setItem('tasks', JSON.stringify(tasks));
+    if (prevCategory !== nextCategory) {
+      this.fetchArticles(nextCategory);
     }
   }
 
-  changeFilter = e => {
-    this.setState({ filter: e.target.value });
+  fetchArticles = query => {
+    this.setState({ isLoading: true });
+
+    articleAPI
+      .fetchArticles(query)
+      .then(({ data }) => this.setState({ articles: mapper(data.hits) }))
+      .catch(error => this.setState({ error }))
+      .finally(() => this.setState({ isLoading: false }));
   };
 
-  addTask = task => {
-    const taskToAdd = {
-      ...task,
-      id: shortid.generate(),
-      completed: false,
-    };
-
-    this.setState(state => ({
-      tasks: [...state.tasks, taskToAdd],
-    }));
-  };
-
-  deleteTask = id => {
-    this.setState(state => ({
-      tasks: state.tasks.filter(task => task.id !== id),
-    }));
-  };
-
-  updateCompleted = id => {
-    this.setState(state => ({
-      tasks: state.tasks.map(task =>
-        task.id === id ? { ...task, completed: !task.completed } : task,
-      ),
-    }));
-  };
-
-  updatePriority = (id, priority) => {
-    this.setState(state => ({
-      tasks: state.tasks.map(task =>
-        task.id === id ? { ...task, priority } : task,
-      ),
-    }));
+  handleCategoryChange = e => {
+    this.setState({ category: e.target.value });
   };
 
   render() {
-    console.log('render');
-    const { tasks, filter } = this.state;
-    const filteredTasks = filterTasks(tasks, filter);
+    const { articles, isLoading, error, category } = this.state;
 
     return (
-      <div style={containerStyles}>
-        <TaskEditor onAddTask={this.addTask} />
-        <hr />
-        <TaskFilter value={filter} onChangeFilter={this.changeFilter} />
-        <TaskList
-          items={filteredTasks}
-          onDeleteTask={this.deleteTask}
-          onUpateCompleted={this.updateCompleted}
-          onUpdatePriority={this.updatePriority}
+      <div>
+        <SearchForm onSubmit={this.fetchArticles} />
+        <CategorySelector
+          options={['html', 'css', 'javascript', 'react']}
+          value={category}
+          onChange={this.handleCategoryChange}
         />
+        {error && <ErrorNotification text={error.message} />}
+        {isLoading && <Loader />}
+        {articles.length > 0 && <ArticleList items={articles} />}
       </div>
     );
   }
