@@ -1,10 +1,13 @@
+/* eslint-disable */
+
 import React, { Component } from 'react';
 import ArticleList from './ArticleList';
 import Loader from './Loader';
 import ErrorNotification from './ErrorNotification';
-import SearchForm from './SearchForm';
-import CategorySelector from './CategorySelector';
 import * as articleAPI from '../services/article-api';
+import withFetch from './hoc/withFetch';
+import Togglable from './Togglable';
+import Fetcher from './Fetcher';
 
 /*
  * Функция-помошник, которая возвращает массив объектов
@@ -19,55 +22,40 @@ const mapper = articles => {
 };
 
 export default class App extends Component {
-  state = {
-    articles: [],
-    isLoading: false,
-    error: null,
-    category: '',
-  };
-
-  componentDidMount() {
-    this.fetchArticles();
-  }
-
-  componentDidUpdate(prevProps, prevState) {
-    const { category: prevCategory } = prevState;
-    const { category: nextCategory } = this.state;
-
-    if (prevCategory !== nextCategory) {
-      this.fetchArticles(nextCategory);
-    }
-  }
-
-  fetchArticles = query => {
-    this.setState({ isLoading: true });
-
-    articleAPI
-      .fetchArticles(query)
-      .then(({ data }) => this.setState({ articles: mapper(data.hits) }))
-      .catch(error => this.setState({ error }))
-      .finally(() => this.setState({ isLoading: false }));
-  };
-
-  handleCategoryChange = e => {
-    this.setState({ category: e.target.value });
-  };
-
   render() {
-    const { articles, isLoading, error, category } = this.state;
-
     return (
       <div>
-        <SearchForm onSubmit={this.fetchArticles} />
-        <CategorySelector
-          options={['html', 'css', 'javascript', 'react']}
-          value={category}
-          onChange={this.handleCategoryChange}
-        />
-        {error && <ErrorNotification text={error.message} />}
-        {isLoading && <Loader />}
-        {articles.length > 0 && <ArticleList items={articles} />}
+        <Fetcher url="https://hn.algolia.com/api/v1/search?query=react">
+          {({ data, isLoading, error }) => {
+            let articles = [];
+
+            if (data.hits) {
+              articles = mapper(data.hits);
+            }
+
+            return (
+              <>
+                {error && <ErrorNotification text={error.message} />}
+                {isLoading && <Loader />}
+                {articles.length > 0 && (
+                  <Togglable>
+                    {({ on, onToggle }) => (
+                      <>
+                        <button onClick={onToggle}>{on ? '🖕' : '👇'}</button>
+                        {on && <ArticleList items={articles} />}
+                      </>
+                    )}
+                  </Togglable>
+                )}
+              </>
+            );
+          }}
+        </Fetcher>
       </div>
     );
   }
 }
+
+// export default withFetch('https://hn.algolia.com/api/v1/search?query=react')(
+//   App,
+// );

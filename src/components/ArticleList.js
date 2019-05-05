@@ -1,13 +1,23 @@
+/* eslint-disable */
+
 import React from 'react';
 import PropTypes from 'prop-types';
+import ArticleListItem from './ArticleListItem';
+import withLog from './hoc/withLog';
+import Togglable from './Togglable';
 
 const ArticleList = ({ items }) => (
   <ul>
     {items.map(({ id, link, title }) => (
       <li key={id}>
-        <a href={link} target="_blank" rel="noopener noreferrer">
-          {title}
-        </a>
+        <Togglable>
+          {({ on, onToggle }) => (
+            <>
+              <button onClick={onToggle}>{on ? 'Hide' : 'Show'}</button>
+              {on && <ArticleListItem title={title} link={link} />}
+            </>
+          )}
+        </Togglable>
       </li>
     ))}
   </ul>
@@ -23,4 +33,4 @@ ArticleList.propTypes = {
   ).isRequired,
 };
 
-export default ArticleList;
+export default withLog(ArticleList);
