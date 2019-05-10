@@ -3,12 +3,7 @@ import PropTypes from 'prop-types';
 import Task from '../Task/Task';
 import styles from './TaskList.module.css';
 
-const TaskList = ({
-  items,
-  onDeleteTask,
-  onUpateCompleted,
-  onUpdatePriority,
-}) =>
+const TaskList = ({ items, onDeleteTask, onUpateCompleted, onEditTask }) =>
   items.length > 0 && (
     <ul className={styles.list}>
       {items.map(item => (
@@ -17,7 +12,7 @@ const TaskList = ({
             {...item}
             onDeleteTask={() => onDeleteTask(item.id)}
             onUpateCompleted={() => onUpateCompleted(item.id)}
-            onUpdatePriority={onUpdatePriority}
+            onEdit={() => onEditTask(item.id)}
           />
         </li>
       ))}
@@ -32,7 +27,6 @@ TaskList.propTypes = {
   ).isRequired,
   onDeleteTask: PropTypes.func.isRequired,
   onUpateCompleted: PropTypes.func.isRequired,
-  onUpdatePriority: PropTypes.func.isRequired,
 };
 
 export default TaskList;

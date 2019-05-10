@@ -1,22 +1,22 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import PrioritySelector from '../PrioritySelector/PrioritySelector';
-import Priority from '../../utils/Priority';
 import styles from './Task.module.css';
 
-const options = Object.values(Priority);
-
 const Task = ({
-  id,
   text,
   priority,
   completed,
   onDeleteTask,
   onUpateCompleted,
-  onUpdatePriority,
+  onEdit,
 }) => (
   <div className={`${styles.task} ${styles[`${priority}Priority`]}`}>
-    <p className={styles.text}>{text}</p>
+    <p
+      className={styles.text}
+      style={{ textDecoration: completed ? 'line-through' : 'none' }}
+    >
+      {text}
+    </p>
 
     <hr />
     <div className={styles.actions}>
@@ -24,11 +24,9 @@ const Task = ({
         Delete
       </button>
 
-      <PrioritySelector
-        options={options}
-        value={priority}
-        onChange={e => onUpdatePriority(id, e.target.value)}
-      />
+      <button type="button" onClick={onEdit}>
+        Edit
+      </button>
 
       <label>
         Completed:
@@ -43,13 +41,12 @@ const Task = ({
 );
 
 Task.propTypes = {
-  id: PropTypes.string.isRequired,
   text: PropTypes.string.isRequired,
   priority: PropTypes.string.isRequired,
   completed: PropTypes.bool.isRequired,
   onDeleteTask: PropTypes.func.isRequired,
   onUpateCompleted: PropTypes.func.isRequired,
-  onUpdatePriority: PropTypes.func.isRequired,
+  onEdit: PropTypes.func.isRequired,
 };
 
 export default Task;

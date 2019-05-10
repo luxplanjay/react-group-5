@@ -8,12 +8,20 @@ const options = Object.values(Priority);
 
 export default class TaskEditor extends Component {
   static propTypes = {
-    onAddTask: PropTypes.func.isRequired,
+    onSave: PropTypes.func.isRequired,
+    onCancel: PropTypes.func.isRequired,
+    text: PropTypes.string,
+    priority: PropTypes.string,
+  };
+
+  static defaultProps = {
+    text: '',
+    priority: Priority.NORMAL,
   };
 
   state = {
-    text: '',
-    priority: Priority.NORMAL,
+    text: this.props.text,
+    priority: this.props.priority,
   };
 
   handleChange = e => {
@@ -25,7 +33,7 @@ export default class TaskEditor extends Component {
   handleSubmit = e => {
     e.preventDefault();
 
-    this.props.onAddTask({ ...this.state });
+    this.props.onSave({ ...this.state });
 
     this.setState({
       text: '',
@@ -35,6 +43,7 @@ export default class TaskEditor extends Component {
 
   render() {
     const { text, priority } = this.state;
+    const { onCancel } = this.props;
 
     return (
       <form className={styles.form} onSubmit={this.handleSubmit}>
@@ -55,7 +64,12 @@ export default class TaskEditor extends Component {
           />
         </label>
 
-        <button type="submit">Create</button>
+        <div>
+          <button type="submit">Save</button>
+          <button type="button" onClick={onCancel}>
+            Cancel
+          </button>
+        </div>
       </form>
     );
   }

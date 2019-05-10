@@ -1,8 +1,11 @@
 import React, { Component } from 'react';
-import shortid from 'shortid';
 import TaskEditor from './TaskEditor/TaskEditor';
 import TaskList from './TaskList/TaskList';
 import TaskFilter from './TaskFilter/TaskFilter';
+import Modal from './Modal/Modal';
+import Legend from './Legend/Legend';
+import Priority from '../utils/Priority';
+import * as TaskAPI from '../services/task-api';
 
 const containerStyles = {
   maxWidth: 1200,
@@ -11,95 +14,163 @@ const containerStyles = {
   marginRight: 'auto',
 };
 
+const headerStyles = { display: 'flex', justifyContent: 'space-between' };
+
 const filterTasks = (tasks, filter) => {
   return tasks.filter(task =>
     task.text.toLowerCase().includes(filter.toLowerCase()),
   );
 };
 
+const legendOptions = [
+  { priority: Priority.LOW, color: '#4caf50' },
+  { priority: Priority.NORMAL, color: '#2196f3' },
+  { priority: Priority.HIGH, color: '#f44336' },
+];
+
 export default class App extends Component {
   state = {
     tasks: [],
     filter: '',
+    isCreating: false,
+    isEditing: false,
+    selectedTaskId: null,
   };
 
+  /*
+   * Get tasks
+   */
   componentDidMount() {
-    console.log('componentDidMount');
-    const persistedTasks = localStorage.getItem('tasks');
-
-    if (persistedTasks) {
-      const tasks = JSON.parse(persistedTasks);
-
+    TaskAPI.fetchTasks().then(tasks => {
       this.setState({ tasks });
-    }
-  }
-
-  componentDidUpdate(prevProps, prevState) {
-    console.log('componentDidUpdate');
-    // console.log('prevState: ', prevState);
-    // console.log('this.state: ', this.state);
-
-    const { tasks } = this.state;
-
-    if (prevState.tasks !== tasks) {
-      localStorage.setItem('tasks', JSON.stringify(tasks));
-    }
+    });
   }
 
   changeFilter = e => {
     this.setState({ filter: e.target.value });
   };
 
+  /*
+   * Create task
+   */
+  openCreateTaskModal = () => {
+    this.setState({ isCreating: true });
+  };
+
+  closeCreateTaskModal = () => {
+    this.setState({ isCreating: false });
+  };
+
   addTask = task => {
     const taskToAdd = {
       ...task,
-      id: shortid.generate(),
       completed: false,
     };
 
-    this.setState(state => ({
-      tasks: [...state.tasks, taskToAdd],
-    }));
+    TaskAPI.postTask(taskToAdd)
+      .then(addedTask => {
+        this.setState(state => ({
+          tasks: [...state.tasks, addedTask],
+        }));
+      })
+      .finally(this.closeCreateTaskModal);
   };
 
+  /*
+   * Delete task
+   */
   deleteTask = id => {
-    this.setState(state => ({
-      tasks: state.tasks.filter(task => task.id !== id),
-    }));
+    TaskAPI.deleteTask(id).then(() => {
+      this.setState(state => ({
+        tasks: state.tasks.filter(task => task.id !== id),
+      }));
+    });
+  };
+
+  /*
+   * Update task
+   */
+  openEditTaskModal = id => {
+    this.setState({
+      isEditing: true,
+      selectedTaskId: id,
+    });
+  };
+
+  closeEditTaskModal = () => {
+    this.setState({
+      isEditing: false,
+      selectedTaskId: null,
+    });
+  };
+
+  updateTask = ({ text, priority }) => {
+    TaskAPI.updateTask(this.state.selectedTaskId, { text, priority }).then(
+      udpatedTask => {
+        this.setState(
+          state => ({
+            tasks: state.tasks.map(task =>
+              task.id === state.selectedTaskId ? udpatedTask : task,
+            ),
+          }),
+          this.closeEditTaskModal,
+        );
+      },
+    );
   };
 
   updateCompleted = id => {
-    this.setState(state => ({
-      tasks: state.tasks.map(task =>
-        task.id === id ? { ...task, completed: !task.completed } : task,
-      ),
-    }));
-  };
+    const task = this.state.tasks.find(t => t.id === id);
 
-  updatePriority = (id, priority) => {
-    this.setState(state => ({
-      tasks: state.tasks.map(task =>
-        task.id === id ? { ...task, priority } : task,
-      ),
-    }));
+    TaskAPI.updateTask(id, { completed: !task.completed }).then(updatedTask => {
+      this.setState(state => ({
+        tasks: state.tasks.map(t => (t.id === id ? updatedTask : t)),
+      }));
+    });
   };
 
   render() {
-    console.log('render');
-    const { tasks, filter } = this.state;
+    const { tasks, filter, isCreating, isEditing, selectedTaskId } = this.state;
     const filteredTasks = filterTasks(tasks, filter);
+    const taskInEdit = tasks.find(t => t.id === selectedTaskId);
 
     return (
       <div style={containerStyles}>
-        <TaskEditor onAddTask={this.addTask} />
+        <header style={headerStyles}>
+          <button type="button" onClick={this.openCreateTaskModal}>
+            Add task
+          </button>
+          <Legend items={legendOptions} />
+        </header>
+
         <hr />
         <TaskFilter value={filter} onChangeFilter={this.changeFilter} />
         <TaskList
           items={filteredTasks}
           onDeleteTask={this.deleteTask}
           onUpateCompleted={this.updateCompleted}
-          onUpdatePriority={this.updatePriority}
+          onEditTask={this.openEditTaskModal}
         />
+
+        {isCreating && (
+          <Modal onClose={this.closeCreateTaskModal}>
+            <TaskEditor
+              onSave={this.addTask}
+              onCancel={this.closeCreateTaskModal}
+            />
+          </Modal>
+        )}
+
+        {isEditing && (
+          <Modal onClose={this.closeEditTaskModal}>
+            <TaskEditor
+              onSave={this.updateTask}
+              onCancel={this.closeEditTaskModal}
+              text={taskInEdit.text}
+              priority={taskInEdit.priority}
+            />
+          </Modal>
+        )}
       </div>
     );
   }
