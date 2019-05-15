@@ -21,7 +21,3 @@ select {
   cursor: pointer;
   font-family: inherit;
 }
-
-button:active {
-  color: #fff;
-}
