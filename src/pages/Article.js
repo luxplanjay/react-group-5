@@ -15,7 +15,11 @@ export default class ArticlePage extends Component {
   }
 
   handleGoback = () => {
-    const { history } = this.props;
+    const { history, location } = this.props;
+
+    if (location.state) {
+      return history.push(location.state.from);
+    }
 
     history.push('/articles');
   };
@@ -26,6 +30,8 @@ export default class ArticlePage extends Component {
     return (
       <div>
         <h1>Single Article Page</h1>
+
+        <h2>{JSON.stringify(this.props.location.state)}</h2>
         {article && <Article {...article} onGoback={this.handleGoback} />}
       </div>
     );

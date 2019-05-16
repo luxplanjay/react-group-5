@@ -8,10 +8,12 @@
     "gh-pages": "^2.0.1",
     "indicative": "^5.0.8",
     "prop-types": "^15.7.2",
+    "query-string": "^6.5.0",
     "react": "^16.8.6",
     "react-dom": "^16.8.6",
     "react-router-dom": "^5.0.0",
     "react-scripts": "2.1.8",
+    "react-select": "^2.4.3",
     "shortid": "^2.2.14",
     "styled-components": "^4.2.0"
   },
