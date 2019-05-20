@@ -1,33 +1,65 @@
-import React from 'react';
-import { Route, Switch } from 'react-router-dom';
-import HomePage from '../pages/Home';
-import AboutPage from '../pages/About';
-import ArticlesPage from '../pages/Articles';
-import NotFoundPage from '../pages/NotFound';
-import ArticlePage from '../pages/Article';
+import React, { lazy, Suspense } from 'react';
+import { Switch, Route } from 'react-router-dom';
+// import Loadable from 'react-loadable';
 import Nav from './Nav';
+// import Loader from './Loader';
 
-const containerStyles = {
-  maxWidth: 1170,
-  marginLeft: 'auto',
-  marginRight: 'auto',
-  padding: 'padding: 0 16px',
-};
+const AsyncHome = lazy(() =>
+  import('../pages/Home' /* webpackChunkName: "home-page" */),
+);
 
-const App = () => {
-  return (
-    <div style={containerStyles}>
-      <Nav />
+const AsyncPosts = lazy(() =>
+  import('../pages/Posts' /* webpackChunkName: "posts-page" */),
+);
 
+const AsyncProfile = lazy(() =>
+  import('../pages/Profile' /* webpackChunkName: "profile-page" */),
+);
+
+const AsyncNotFound = lazy(() =>
+  import('../pages/NotFound' /* webpackChunkName: "notfound-page" */),
+);
+
+/*
+ * React loader
+ */
+// const AsyncHome = Loadable({
+//   loader: () => import('../pages/Home' /* webpackChunkName: "home-page" */),
+//   loading: Loader,
+//   timeout: 10000,
+//   delay: 200,
+// });
+
+// const AsyncPosts = Loadable({
+//   loader: () => import('../pages/Posts' /* webpackChunkName: "posts-page" */),
+//   loading: Loader,
+// });
+
+// const AsyncProfile = Loadable({
+//   loader: () =>
+//     import('../pages/Profile' /* webpackChunkName: "profile-page" */),
+//   loading: Loader,
+// });
+
+// const AsyncNotFound = Loadable({
+//   loader: () =>
+//     import('../pages/NotFound' /* webpackChunkName: "notfound-page" */),
+//   loading: Loader,
+// });
+
+const App = () => (
+  <div>
+    <Nav />
+
+    <Suspense fallback={<h1>Loading...</h1>}>
       <Switch>
-        <Route path="/" exact component={HomePage} />
-        <Route path="/articles/:id" component={ArticlePage} />
-        <Route path="/articles" component={ArticlesPage} />
-        <Route path="/about" component={AboutPage} />
-        <Route component={NotFoundPage} />
+        <Route path="/" exact component={AsyncHome} />
+        <Route path="/posts" exact component={AsyncPosts} />
+        <Route path="/profile" exact component={AsyncProfile} />
+        <Route component={AsyncNotFound} />
       </Switch>
-    </div>
-  );
-};
+    </Suspense>
+  </div>
+);
 
 export default App;
