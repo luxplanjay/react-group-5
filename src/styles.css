@@ -1,5 +1,11 @@
 html {
-  font-size: 130%;
+  box-sizing: border-box;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: inherit;
 }
 
 body {
@@ -9,32 +15,7 @@ body {
   background-color: #fff;
 }
 
-h1 {
-  font-weight: 500;
-}
-
-h2,
-h3,
-p {
-  margin: 0;
-  line-height: 1.5;
-}
-
-h3 {
-  font-weight: 500;
-}
-
 button {
-  display: inline-flex;
-  font-size: inherit;
-  cursor: pointer;
-  margin: 0 4px;
-  padding: 8px 16px;
   font-family: inherit;
-}
-
-input,
-textarea {
-  font-size: inherit;
-  margin-bottom: 16px;
+  cursor: pointer;
 }
