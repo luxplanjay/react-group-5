@@ -1,40 +1,20 @@
-import React, { Component } from 'react';
-import faker from 'faker';
-import List from './List/List';
-import Button from './Button/Button';
-import Menu from './Menu/Menu';
+import React from 'react';
+import Timer from './Timer/TimerContainer';
+import StepSelector from './StepSelector/StepSelector';
 
-export default class App extends Component {
-  state = {
-    items: [],
-  };
+const containerStyle = {
+  display: 'flex',
+  flexDirection: 'column',
+  justifyContent: 'center',
+  alignItems: 'center',
+  minHeight: '100vh',
+};
 
-  addItem = () => {
-    this.setState(state => ({
-      items: [
-        ...state.items,
-        { id: faker.random.uuid(), text: faker.lorem.words(5) },
-      ],
-    }));
-  };
+const App = () => (
+  <div style={containerStyle}>
+    <Timer />
+    <StepSelector />
+  </div>
+);
 
-  removeItem = id => {
-    this.setState(state => ({
-      items: state.items.filter(item => item.id !== id),
-    }));
-  };
-
-  render() {
-    const { items } = this.state;
-
-    return (
-      <>
-        <Menu />
-        <hr />
-        <Button label="Add Item" onClick={this.addItem} />
-        <hr />
-        <List items={items} onDelete={this.removeItem} />
-      </>
-    );
-  }
-}
+export default App;
