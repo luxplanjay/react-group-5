@@ -1,7 +1,7 @@
 import { connect } from 'react-redux';
 import { compose } from 'redux';
 import PostList from './PostList';
-import withRenderLog from '../hoc/withRenderLog';
+// import withRenderLog from '../hoc/withRenderLog';
 import * as postsSelectors from '../../redux/posts/postsSelectors';
 import { deletePost } from '../../redux/posts/postsActions';
 
@@ -20,5 +20,5 @@ const withConnect = connect(
 
 export default compose(
   withConnect,
-  withRenderLog,
+  // withRenderLog,
 )(PostList);

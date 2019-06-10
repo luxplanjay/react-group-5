@@ -1,0 +1,52 @@
+{
+  "definitions": {},
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "http://example.com/root.json",
+  "type": "object",
+  "title": "The Root Schema",
+  "required": ["timer", "posts"],
+  "properties": {
+    "timer": {
+      "$id": "#/properties/timer",
+      "type": "object",
+      "title": "The Timer Schema",
+      "required": ["value", "step"],
+      "properties": {
+        "value": {
+          "$id": "#/properties/timer/properties/value",
+          "type": "integer",
+          "title": "The Value Schema",
+          "default": 0,
+          "examples": [0]
+        },
+        "step": {
+          "$id": "#/properties/timer/properties/step",
+          "type": "integer",
+          "title": "The Step Schema",
+          "default": 0,
+          "examples": [0]
+        }
+      }
+    },
+    "posts": {
+      "$id": "#/properties/posts",
+      "type": "object",
+      "title": "The Posts Schema",
+      "required": ["items", "selectedTag"],
+      "properties": {
+        "items": {
+          "$id": "#/properties/posts/properties/items",
+          "type": "array",
+          "title": "The Items Schema"
+        },
+        "selectedTag": {
+          "$id": "#/properties/posts/properties/selectedTag",
+          "type": "null",
+          "title": "The Selectedtag Schema",
+          "default": null,
+          "examples": [null]
+        }
+      }
+    }
+  }
+}

@@ -3,7 +3,7 @@ import { compose } from 'redux';
 import * as timerActions from '../../redux/timer/timerActions';
 import Timer from './Timer';
 import * as timerSelectors from '../../redux/timer/timerSelectors';
-import withRenderLog from '../hoc/withRenderLog';
+// import withRenderLog from '../hoc/withRenderLog';
 
 const mapStateToProps = state => ({
   value: timerSelectors.getValue(state),
@@ -22,5 +22,5 @@ const withConnect = connect(
 
 export default compose(
   withConnect,
-  withRenderLog,
+  // withRenderLog,
 )(Timer);

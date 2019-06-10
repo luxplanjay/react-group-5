@@ -7,11 +7,18 @@ export const Type = {
 export const increment = value => ({
   type: Type.INCREMENT,
   payload: value,
+  meta: {
+    throttle: 500,
+    analytics: true,
+  },
 });
 
 export const decrement = value => ({
   type: Type.DECREMENT,
   payload: value,
+  meta: {
+    throttle: 500,
+  },
 });
 
 export const changeStep = step => ({
