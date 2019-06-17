@@ -5,6 +5,8 @@ import App from './components/App';
 import store from './redux/store';
 import './styles.css';
 
+import axios from 'axios';
+
 ReactDOM.render(
   <Provider store={store}>
     <App />

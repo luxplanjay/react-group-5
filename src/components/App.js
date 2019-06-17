@@ -1,12 +1,9 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import Timer from './Timer/TimerContainer';
-import StepSelector from './StepSelector/StepSelector';
 import TagFilter from './TagFilter/TagFilter';
 import PostList from './PostList/PostListContainer';
-import { fetchPosts } from '../redux/posts/postsActions';
-import TotalLikes from './TotalLikes';
-import posts from '../posts.json';
+import PostEditor from './PostEditor/PostEditor';
+import * as postsOperations from '../redux/posts/postsOperations.js';
 
 const containerStyle = {
   display: 'flex',
@@ -18,16 +15,13 @@ const containerStyle = {
 
 class App extends Component {
   componentDidMount() {
-    this.props.fetchPosts(posts);
+    this.props.fetchPosts();
   }
 
   render() {
     return (
       <div style={containerStyle}>
-        <Timer />
-        <StepSelector />
-        <hr style={{ width: '100%' }} />
-        <TotalLikes />
+        <PostEditor />
         <TagFilter />
         <PostList />
       </div>
@@ -35,12 +29,8 @@ class App extends Component {
   }
 }
 
-// const mDTP = dispatch => ({
-//   fetchPosts: posts => dispatch(postsActions.fetchPosts(posts)),
-// });
-
 const mapDispatchToProps = {
-  fetchPosts,
+  fetchPosts: postsOperations.fetchPosts,
 };
 
 export default connect(

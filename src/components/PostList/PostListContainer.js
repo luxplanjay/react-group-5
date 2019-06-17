@@ -1,24 +1,17 @@
 import { connect } from 'react-redux';
-import { compose } from 'redux';
 import PostList from './PostList';
-// import withRenderLog from '../hoc/withRenderLog';
 import * as postsSelectors from '../../redux/posts/postsSelectors';
-import { deletePost } from '../../redux/posts/postsActions';
+import * as postsOperations from '../../redux/posts/postsOperations';
 
 const mapStateToProps = state => ({
   items: postsSelectors.getPostsWithSelectedTag(state),
 });
 
 const mapDispatchToProps = {
-  deletePost,
+  onDeletePost: postsOperations.deletePost,
 };
 
-const withConnect = connect(
+export default connect(
   mapStateToProps,
   mapDispatchToProps,
-);
-
-export default compose(
-  withConnect,
-  // withRenderLog,
 )(PostList);

@@ -4,30 +4,8 @@
   "$id": "http://example.com/root.json",
   "type": "object",
   "title": "The Root Schema",
-  "required": ["timer", "posts"],
+  "required": ["posts"],
   "properties": {
-    "timer": {
-      "$id": "#/properties/timer",
-      "type": "object",
-      "title": "The Timer Schema",
-      "required": ["value", "step"],
-      "properties": {
-        "value": {
-          "$id": "#/properties/timer/properties/value",
-          "type": "integer",
-          "title": "The Value Schema",
-          "default": 0,
-          "examples": [0]
-        },
-        "step": {
-          "$id": "#/properties/timer/properties/step",
-          "type": "integer",
-          "title": "The Step Schema",
-          "default": 0,
-          "examples": [0]
-        }
-      }
-    },
     "posts": {
       "$id": "#/properties/posts",
       "type": "object",

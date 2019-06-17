@@ -1,0 +1,12 @@
+{
+  "name": "api-server",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "devDependencies": {
+    "json-server": "^0.15.0"
+  },
+  "scripts": {
+    "start": "json-server db.json -p 8086 -d 200"
+  }
+}
