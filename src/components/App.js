@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useReducer } from 'react';
 import shortid from 'shortid';
 import styled from 'styled-components';
 import TodoEditor from './TodoEditor';
@@ -7,8 +7,7 @@ import Modal from './Modal';
 
 import AuthManager from './AuthManager';
 
-// TODO: useCallback
-// import OptimizedCounter from './OptimizedCounter';
+import OptimizedCounter from './OptimizedCounter';
 
 const Container = styled.div`
   font-family: sans-serif;
@@ -31,12 +30,51 @@ const Header = styled.header`
  * useReducer для todos
  * useState для модалки
  */
+const ActionType = {
+  ADD_TODO: 'ADD_TODO',
+  DELETE_TODO: 'DELETE_TODO',
+  FETCH_TODOS: 'FETCH_TODOS',
+};
+
+const todosReducer = (state, { type, payload }) => {
+  switch (type) {
+    case ActionType.FETCH_TODOS:
+      return payload.todos;
+
+    case ActionType.ADD_TODO:
+      return [...state, payload.todo];
+
+    case ActionType.DELETE_TODO:
+      return state.filter(todo => todo.id !== payload.id);
+
+    default:
+      return state;
+  }
+};
 
 const App = () => {
   /*
    * TODOS
    */
-  const [todos, setTodos] = useState([]);
+  // const [todos, setTodos] = useState([]);
+
+  // const addTodo = text => {
+  // const todo = {
+  //   id: shortid.generate(),
+  //   text,
+  // };
+
+  //   setTodos(prevTodos => [...prevTodos, todo]);
+  // };
+
+  // const deleteTodo = todoId => {
+  //   setTodos(prevTodos => prevTodos.filter(todo => todo.id !== todoId));
+  // };
+
+  /*
+   * TODOS с useReducer
+   */
+  const [todos, dispatch] = useReducer(todosReducer, []);
 
   const addTodo = text => {
     const todo = {
@@ -44,19 +82,30 @@ const App = () => {
       text,
     };
 
-    setTodos(prevTodos => [...prevTodos, todo]);
+    dispatch({
+      type: ActionType.ADD_TODO,
+      payload: { todo },
+    });
   };
 
-  const deleteTodo = todoId => {
-    setTodos(prevTodos => prevTodos.filter(todo => todo.id !== todoId));
+  const deleteTodo = id => {
+    dispatch({
+      type: ActionType.DELETE_TODO,
+      payload: { id },
+    });
   };
 
   // "Как будто аналог" didMount
   useEffect(() => {
     const persistedTodos = localStorage.getItem('todos');
-
     if (persistedTodos) {
-      setTodos(JSON.parse(persistedTodos));
+      // setTodos(JSON.parse(persistedTodos));
+      const todos = JSON.parse(persistedTodos);
+
+      dispatch({
+        type: ActionType.FETCH_TODOS,
+        payload: { todos },
+      });
     }
   }, []);
 
@@ -84,6 +133,9 @@ const App = () => {
         <button onClick={openModal}>Open modal</button>
         <AuthManager />
       </Header>
+      <hr />
+      <OptimizedCounter />
+      <hr />
 
       <TodoEditor onSave={addTodo} />
       {todos.length > 0 && <TodoList items={todos} onDeleteTodo={deleteTodo} />}
