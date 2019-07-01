@@ -4,6 +4,8 @@ import { ActionType } from './sessionActions';
 const user = (state = null, { type, payload }) => {
   switch (type) {
     case ActionType.LOGIN_SUCCESS:
+    case ActionType.SIGNUP_SUCCESS:
+    case ActionType.REFRESH_USER_SUCCESS:
       return payload.response.user;
 
     case ActionType.LOGOUT:
@@ -14,9 +16,11 @@ const user = (state = null, { type, payload }) => {
   }
 };
 
-const authenticated = (state = true, { type, payload }) => {
+const authenticated = (state = false, { type, payload }) => {
   switch (type) {
     case ActionType.LOGIN_SUCCESS:
+    case ActionType.SIGNUP_SUCCESS:
+    case ActionType.REFRESH_USER_SUCCESS:
       return true;
 
     case ActionType.LOGOUT:
@@ -30,6 +34,7 @@ const authenticated = (state = true, { type, payload }) => {
 const token = (state = null, { type, payload }) => {
   switch (type) {
     case ActionType.LOGIN_SUCCESS:
+    case ActionType.SIGNUP_SUCCESS:
       return payload.response.token;
 
     case ActionType.LOGOUT:
@@ -43,6 +48,8 @@ const token = (state = null, { type, payload }) => {
 const error = (state = null, { type, payload }) => {
   switch (type) {
     case ActionType.LOGIN_ERROR:
+    case ActionType.SIGNUP_ERROR:
+    case ActionType.REFRESH_USER_ERROR:
       return payload.error;
 
     default:

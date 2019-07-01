@@ -3,7 +3,7 @@ import Button from './shared/Button';
 
 const UserProfile = ({ user, onLogOut }) => (
   <div>
-    <p>User Profile!!!</p>
+    <h1>{user.name}</h1>
     <Button label="Log Out" onClick={onLogOut} />
   </div>
 );

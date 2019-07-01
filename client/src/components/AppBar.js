@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import Navigation from './Navigation';
 import UserProfile from './UserProfile';
 import * as sessionSelectors from '../redux/session/sessionSelectors';
-import * as sessionActions from '../redux/session/sessionActions';
+import * as sessionOperations from '../redux/session/sessionOperations';
 
 const StyledHeader = styled.header`
   display: flex;
@@ -13,19 +13,20 @@ const StyledHeader = styled.header`
   padding: 8px 24px;
 `;
 
-const AppBar = ({ authenticated, onLogOut }) => (
+const AppBar = ({ authenticated, onLogOut, user }) => (
   <StyledHeader>
     <Navigation authenticated={authenticated} />
-    {authenticated && <UserProfile onLogOut={onLogOut} />}
+    {authenticated && <UserProfile onLogOut={onLogOut} user={user} />}
   </StyledHeader>
 );
 
 const mapStateToProps = state => ({
+  user: sessionSelectors.getUser(state),
   authenticated: sessionSelectors.getIsAuthenticated(state)
 });
 
 const mapDispatchToProps = {
-  onLogOut: sessionActions.logOut
+  onLogOut: sessionOperations.logOut
 };
 
 export default connect(

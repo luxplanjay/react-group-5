@@ -7,13 +7,13 @@ import Button from './shared/Button';
 import * as sessionOperations from '../redux/session/sessionOperations';
 
 class LoginForm extends Component {
-  state = { name: '', email: '', password: '' };
+  state = { email: '', password: '' };
 
   submitHandler = e => {
     e.preventDefault();
 
     this.props.onLogin({ ...this.state });
-    this.setState({ name: '', email: '', password: '' });
+    this.setState({ email: '', password: '' });
   };
 
   changeHandler = e => {
@@ -23,13 +23,9 @@ class LoginForm extends Component {
   };
 
   render() {
-    const { name, email, password } = this.state;
+    const { email, password } = this.state;
     return (
       <Form onSubmit={this.submitHandler}>
-        <Label>
-          Name
-          <Input name="name" value={name} onChange={this.changeHandler} />
-        </Label>
         <Label>
           Email
           <Input
