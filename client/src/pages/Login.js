@@ -1,22 +1,9 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
-import { connect } from 'react-redux';
 import LoginForm from '../components/LoginForm';
-import * as sessionSelectors from '../redux/session/sessionSelectors';
+import withAuthRedirect from '../components/hoc/withAuthRedirect';
 
 class LoginPage extends Component {
-  componentDidMount() {
-    if (this.props.authenticated) {
-      this.props.history.replace('/account');
-    }
-  }
-
-  componentDidUpdate() {
-    if (this.props.authenticated) {
-      this.props.history.replace('/account');
-    }
-  }
-
   render() {
     return (
       <main>
@@ -32,8 +19,4 @@ class LoginPage extends Component {
   }
 }
 
-const mapStateToProps = state => ({
-  authenticated: sessionSelectors.getIsAuthenticated(state)
-});
-
-export default connect(mapStateToProps)(LoginPage);
+export default withAuthRedirect(LoginPage);

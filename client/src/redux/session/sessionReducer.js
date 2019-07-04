@@ -5,8 +5,10 @@ const user = (state = null, { type, payload }) => {
   switch (type) {
     case ActionType.LOGIN_SUCCESS:
     case ActionType.SIGNUP_SUCCESS:
-    case ActionType.REFRESH_USER_SUCCESS:
       return payload.response.user;
+
+    case ActionType.REFRESH_USER_SUCCESS:
+      return payload.user;
 
     case ActionType.LOGOUT:
       return null;

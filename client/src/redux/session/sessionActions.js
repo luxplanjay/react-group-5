@@ -18,9 +18,9 @@ export const refreshUserRequest = () => ({
   type: ActionType.REFRESH_USER_REQUEST
 });
 
-export const refreshUserSuccess = response => ({
+export const refreshUserSuccess = user => ({
   type: ActionType.REFRESH_USER_SUCCESS,
-  payload: { response }
+  payload: { user }
 });
 
 export const refreshUserError = error => ({

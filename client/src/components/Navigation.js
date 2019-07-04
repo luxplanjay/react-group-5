@@ -31,9 +31,17 @@ const Navigation = ({ authenticated }) => (
     <li>
       <StyledNavLink to="/about">About</StyledNavLink>
     </li>
-    <li>
-      <StyledNavLink to="/account">Account</StyledNavLink>
-    </li>
+
+    {authenticated && (
+      <>
+        <li>
+          <StyledNavLink to="/account">Account</StyledNavLink>
+        </li>
+        <li>
+          <StyledNavLink to="/dashboard">Dashboard</StyledNavLink>
+        </li>
+      </>
+    )}
 
     {!authenticated && (
       <>

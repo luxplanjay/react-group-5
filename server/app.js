@@ -61,8 +61,8 @@ router.get('/current', requireAuth, (req, res) => {
 
   userDb
     .getById(id)
-    .then(({ password, ...props }) => {
-      res.status(200).json({ props });
+    .then(user => {
+      res.status(200).json(user);
     })
     .catch(error => {
       res.status(500).json({
